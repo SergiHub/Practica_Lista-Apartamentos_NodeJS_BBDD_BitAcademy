@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<title>W3.CSS Template</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="/css/main.css">
+<title>Apartment Detail</title>
+<style>
+body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
+.mySlides {display: none}
+</style>
+<body class="w3-content w3-border-left w3-border-right">
+
+<!-- Sidebar/menu -->
+<nav class="w3-sidebar w3-light-grey w3-collapse w3-top" style="z-index:3;width:260px" id="mySidebar">
+    <div class="w3-container w3-display-container w3-padding-16">
+        <% if (isAdmin) { %>
+            <a href="/admin/apartment/<%= apartment._id %>/edit"><button class="w3-button w3-block w3-black w3-margin-bottom">Edit Apartment</button></a>
+            <a href="/admin/apartment/<%= apartment._id %>/delete"><button class="w3-button w3-block w3-black w3-margin-bottom">Remove Apartment</button></a>
+        <% } else { %>
+            <i onclick="w3_close()" class="fa fa-remove w3-hide-large w3-button w3-transparent w3-display-topright"></i>
+            <h3>Rental</h3>
+            <h3>from € <%= apartment.price %></h3>
+            <h6>per night</h6>
+            <hr>
+            <form action="/apartment/<%= apartment._id %>">
+                <p><label><i class="fa fa-calendar-check-o"></i> Check In</label></p>
+                <input class="w3-input w3-border" type="date" placeholder="DD MM YYYY" name="CheckIn" required>
+                <p><label><i class="fa fa-calendar-o"></i> Check Out</label></p>
+                <input class="w3-input w3-border" type="date" placeholder="DD MM YYYY" name="CheckOut" required>
+                <br>
+                <a href="/apartment/<%= apartment._id %>"><button class="w3-button w3-block w3-black w3-margin-bottom">Booking</button></a>
+                <% if (message) { %>
+                      <div class="w3-panel w3-green w3-leftbar w3-padding-32">
+                        <h5><%= message %></h5>
+                      </div>
+                <% } %>
+            </form>
+            <br>
+            <table>
+            <!-- Mostrar reservas (si las hay) -->
+            <h3 class="bookings">Bookings</h3>
+            <% if (!apartment.bookings[0]) { %>
+                <h4>Apartment available for all dates</h4>
+            <% } else { %>
+                <tr>
+                    <th>In</th>
+                    <th>Out</th>
+                </tr>
+                <% for (var i = 0; i < apartment.bookings.length; i++){ %>
+                    <tr>
+                        <td><%= apartment.bookings[i].startDate %> / </td>
+                        <td><%= apartment.bookings[i].endDate %></td>
+                    </tr>
+                <% } %>
+            <% } %>
+            </table>
+        <% } %>
+    </div>
+</nav>
+
+<!-- !PAGE CONTENT! -->
+<div class="w3-main w3-white" style="margin-left:260px">
+  
+<!-- Slideshow Header -->
+<div class="w3-container" id="apartment">
+    <h2 class="w3-text-green"><%= apartment.title %></h2>
+    <div class="w3-display-container mySlides">
+        <img src="<%= apartment.photos[0].url %>" style="width:100%;height:40vh;margin-bottom:-6px">
+        <div class="w3-display-bottomleft w3-container w3-black">
+            <p><%= apartment.photos[0].titlePhoto %></p>
+        </div>
+    </div>
+    <div class="w3-display-container mySlides">
+        <img src="<%= apartment.photos[1].url %>" style="width:100%;height:40vh;margin-bottom:-6px">
+        <div class="w3-display-bottomleft w3-container w3-black">
+            <p><%= apartment.photos[1].titlePhoto %></p>
+        </div>
+    </div>
+    <div class="w3-display-container mySlides">
+        <img src="<%= apartment.photos[2].url %>" style="width:100%;height:40vh;margin-bottom:-6px">
+        <div class="w3-display-bottomleft w3-container w3-black">
+            <p><%= apartment.photos[2].titlePhoto %></p>
+        </div>
+    </div>
+    <div class="w3-display-container mySlides">
+        <img src="<%= apartment.photos[3].url %>" style="width:100%;height:40vh;margin-bottom:-6px">
+        <div class="w3-display-bottomleft w3-container w3-black">
+            <p><%= apartment.photos[3].titlePhoto %></p>
+        </div>
+    </div>
+</div>
+
+<div class="w3-row-padding w3-section">
+    <div class="w3-col s3">
+        <img class="demo w3-opacity w3-hover-opacity-off" src="<%= apartment.photos[0].url %>" style="width:100%;height:16vh;cursor:pointer" onclick="currentDiv(1)" title=<%= apartment.photos[0].titlePhoto %>>
+    </div>
+    <div class="w3-col s3">
+        <img class="demo w3-opacity w3-hover-opacity-off" src="<%= apartment.photos[1].url %>" style="width:100%;height:16vh;cursor:pointer" onclick="currentDiv(2)" title="<%= apartment.photos[1].titlePhoto %>">
+    </div>
+    <div class="w3-col s3">
+        <img class="demo w3-opacity w3-hover-opacity-off" src="<%= apartment.photos[2].url %>" style="width:100%;height:16vh;cursor:pointer" onclick="currentDiv(3)" title="<%= apartment.photos[2].titlePhoto %>">
+    </div>
+    <div class="w3-col s3">
+        <img class="demo w3-opacity w3-hover-opacity-off" src="<%= apartment.photos[3].url %>" style="width:100%;height:16vh;cursor:pointer" onclick="currentDiv(4)" title="<%= apartment.photos[3].titlePhoto %>">
+    </div>
+</div>
+  
+<div class="w3-container">
+    <h4 class="w3-row-padding"><strong>The space</strong></h4>
+    <div class="w3-row w3-large w3-row-padding">
+        <div class="w3-col s6">
+            <p><i class="fa fa-fw fa-male"></i> Max people: <%= apartment.occupation %></p>
+            <p><i class="fa fa-fw fa-bath"></i> Bathrooms: <%= apartment.bathrooms %></p>
+            <!--  PENDENT!! <p><i class="fa fa-fw fa-bed"></i> Bedrooms: 1</p> -->
+        </div>
+        <div class="w3-col s6">
+            <p><i class="fa fa-fw fa-clock-o"></i> Check In: After 3PM</p>
+            <p><i class="fa fa-fw fa-clock-o"></i> Check Out: 12PM</p>
+        </div>
+    </div>
+    <hr>
+
+    <h4 class="w3-row-padding"> <strong>Amenities</strong></h4>
+    <div class="w3-row w3-large w3-row-padding">
+        <div class="w3-col s6">
+            <% if (apartment.services.includes("AC")) { %>
+                <p><i class="fa fa-snowflake-o w3-margin-bottom"> Air Conditioner</i></p>
+            <% } else { %>
+                <p><i class="fa fa-snowflake-o w3-opacity-max"> Air Conditioner</i></p>
+            <% } %>
+            <% if (apartment.services.includes("TV")) { %>
+                <p><i class="fa fa-tv w3-margin-bottom"> TV</i></p>
+            <% } else { %>
+                <p><i class="fa fa-tv w3-opacity-max"> TV</i></p>
+            <% } %>
+            <% if (apartment.services.includes("WiFi")) { %>
+                <p><i class="fa fa-wifi w3-margin-bottom"> WiFi</i></p>
+            <% } else { %>
+                <p><i class="fa fa-wifi w3-opacity-max"> WiFi</i></p>
+            <% } %>
+        </div>
+        <div class="w3-col s6">
+            <% if (apartment.services.includes("Wheelchair")) { %>
+                <p><i class="fa fa-wheelchair w3-margin-bottom"> Accessible</i></p>
+            <% } else { %>
+                <p><i class="fa fa-wheelchair w3-opacity-max"> Accessible</i></p>
+            <% } %>
+            <% if (apartment.services.includes("Heating")) { %>
+                <p><i class="fa fa-fire w3-margin-bottom"> Heating</i></p>
+            <% } else { %>
+                <p><i class="fa fa-fire w3-opacity-max"> Heating</i></p>
+            <% } %>
+            <% if (apartment.services.includes("Kitchen")) { %>
+                <p><i class="fa fa fa-cutlery w3-margin-bottom"> Kitchen</i></p>
+            <% } else { %>
+                <p><i class="fa fa fa-cutlery w3-opacity-max"> Kitchen</i></p>
+            <% } %>
+        </div>
+    </div>
+    <hr>
+
+    <h4 class="w3-row-padding"><strong>Extra Info</strong></h4>
+    <p class="w3-row-padding"><%= apartment.description %></p>
+    <p class="w3-row-padding">We accept: <i class="fa fa-credit-card w3-large"></i> <i class="fa fa-cc-mastercard w3-large"></i> <i class="fa fa-cc-amex w3-large"></i> <i class="fa fa-cc-cc-visa w3-large"></i><i class="fa fa-cc-paypal w3-large"></i></p>
+    <hr>
+
+    <h4 class="w3-row-padding"><strong>Rules</strong></h4>
+    <p class="w3-row-padding"><%= apartment.terms %></p>
+</div>
+<hr>
+
+<!-- Contact -->
+<div class="w3-container w3-bar-item w3-button w3-padding-32">
+    <h2>Contact</h2>
+    <i class="fa fa-map-marker" style="width:30px"></i> Barcelona, Spain<br>
+    <i class="fa fa-phone" style="width:30px"></i> Phone: 665 356 352<br>
+    <i class="fa fa-envelope" style="width:30px"> </i> Email: bonicsapartaments@mail.com<br>
+</div>
+<!-- End page content -->
+</div>
+  
+<script>
+    // Script to open and close sidebar when on tablets and phones
+    function w3_open() {
+        document.getElementById("mySidebar").style.display = "block";
+        document.getElementById("myOverlay").style.display = "block";
+    }
+
+    function w3_close() {
+        document.getElementById("mySidebar").style.display = "none";
+        document.getElementById("myOverlay").style.display = "none";
+    }
+
+    // Slideshow Apartment Images
+    var slideIndex = 1;
+    showDivs(slideIndex);
+
+    function plusDivs(n) {
+        showDivs(slideIndex += n);
+    }
+
+    function currentDiv(n) {
+        showDivs(slideIndex = n);
+    }
+
+    function showDivs(n) {
+        var i;
+        var x = document.getElementsByClassName("mySlides");
+        var dots = document.getElementsByClassName("demo");
+        if (n > x.length) { slideIndex = 1 }
+        if (n < 1) { slideIndex = x.length }
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" w3-opacity-off", "");
+        }
+        x[slideIndex - 1].style.display = "block";
+        dots[slideIndex - 1].className += " w3-opacity-off";
+    }
+</script> 
+  
+</body>
+
+</html>

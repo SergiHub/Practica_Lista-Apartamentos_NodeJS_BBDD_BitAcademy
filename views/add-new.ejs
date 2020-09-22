@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-sacle=1.0">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <title>Add new apartment</title>
+</head>
+
+<body>
+  
+  <!-- Comprobar y Tratar si viene del administrador o del cliente-->
+  <% 
+    var endpoint = "add-new";
+    var titlePage = "Add new apartment";
+    var send = "Send";
+    var idEdit;
+    var titleE;
+    var descriptionE;
+    var termsE;
+    var typeBedE1;
+    var numberBedsE1;
+    var typeBedE2;
+    var numberBedsE2;
+    var additionalBedsE;
+    var bathroomsE;
+    var mainPhotoE;
+    var titleMainPhotoE;
+    var photoE1;
+    var photoE2;
+    var photoE3;
+    var titlePhotoE1;
+    var titlePhotoE2;
+    var titlePhotoE3;
+    var priceE;
+    var occupationE;
+    var squareMetersE;
+    var checkedAC = false;
+    var checkedTV = false;
+    var checkedWiFi = false;
+    var checkedWheelchair = false;
+    var checkedHeating = false;
+    var checkedKitchen = false;
+    var provinceE;
+    var cityE;
+    var gpsLatitudeE;
+    var gpsLongitudeE;
+
+    if (editMode) {
+      endpoint = "edit-apartment";
+      titlePage = "Edit / Modify apartment";
+      send = "Modify";
+      idEdit = apartment._id;
+      titleE = apartment.title;
+      descriptionE = apartment.description;
+      termsE = apartment.terms;
+      typeBedE1 = apartment.beds[0].type;
+      numberBedsE1 = apartment.beds[0].num;
+      typeBedE2 = apartment.beds[1].type;
+      numberBedsE2 = apartment.beds[1].num;
+      additionalBedsE = apartment.additionalBeds;
+      bathroomsE = apartment.bathrooms;
+      mainPhotoE = apartment.photos[0].url;
+      titleMainPhotoE = apartment.photos[0].titlePhoto;
+      photoE1 = apartment.photos[1].url;
+      photoE2 = apartment.photos[2].url;
+      photoE3 = apartment.photos[3].url;
+      titlePhotoE1 = apartment.photos[1].titlePhoto;
+      titlePhotoE2 = apartment.photos[2].titlePhoto;
+      titlePhotoE3 = apartment.photos[3].titlePhoto;
+      priceE = apartment.price;
+      occupationE = apartment.occupation;
+      squareMetersE = apartment.squareMeters;
+      provinceE = apartment.location.province;
+      cityE = apartment.location.city;
+      gpsLatitudeE = apartment.location.gps[0];
+      gpsLongitudeE = apartment.location.gps[1];
+      //Servicios
+      if (apartment.services.includes("AC") && checkedAC == false) {
+        checkedAC = "checked";
+      }
+      if (apartment.services.includes("TV") && checkedTV == false) {
+        checkedTV = "checked";
+      }
+      if (apartment.services.includes("WiFi") && checkedWiFi == false) {
+        checkedWiFi = "checked";
+      }
+      if (apartment.services.includes("Wheelchair") && checkedWheelchair == false) {
+        checkedWheelchair = "checked";
+      }
+      if (apartment.services.includes("Heating") && checkedHeating == false) {
+        checkedHeating = "checked";
+      }
+      if (apartment.services.includes("Kitchen") && checkedKitchen == false) {
+        checkedKitchen = "checked";
+      }
+    }
+  %>
+
+  <header class="w3-card-4">
+    <div class="w3-container w3-brown">
+      <h2><%= titlePage %></h2>
+    </div>
+  </header>
+
+  <main>
+    <form class="w3-container w3-row-padding" action="/admin/<%= endpoint %>" method="POST">
+      <input type="hidden" id="id" name="_id" value="<%= idEdit %>">
+      <br>
+      <!-- Título del Apartamento -->
+      <label class="w3-text-brown w3-row" for="title">Apartment Title</label>
+      <input class="w3-input w3-border w3-sand w3-half" type="text" id="title" name="title" required maxlength="50" pattern="[a-zA-Z0-9_. \-]*" title="Només accepta números i/o lletres i/o un guió normal o baix (espais i punt)" value="<%= titleE %>">
+      
+      <!-- Descripción del Apartamento -->
+      <label class="w3-text-brown w3-row" for="description">Apartment Description</label>
+      <input class="w3-input w3-border w3-sand w3-threequarter" type="text" id="description" name="description" maxlength="100" pattern="[a-zA-Z0-9_. \-]*" required value="<%= descriptionE %>">
+
+      <!-- Condiciones del Apartamento -->
+      <label class="w3-text-brown w3-row" for="terms">Terms</label>
+      <input class="w3-input w3-border w3-sand w3-threequarter" type="text" id="terms" name="terms" maxlength="100" pattern="[a-zA-Z0-9_. \-]*" value="<%= termsE %>">
+
+      <!-- Tipos y números de camas + Camas adicionales-->  
+      <label class="w3-text-brown w3-row" for="beds">Type and Number of Beds</label>
+      <div class="w3-quarter" id="div">
+        <input class="w3-border w3-sand" type="text" id="typeBed" name="typeBed" maxlength="25" pattern="[a-zA-Z0-9_. \-]*" required value="<%= typeBedE1 %>">
+        <input class="w3-border w3-sand" type="number" id="numberBeds" name="numberBeds" min="0" max="5" required value="<%= numberBedsE1 %>">
+      </div>
+      <div class="w3-quarter" id="div">
+        <input class="w3-border w3-sand" type="text" id="typeBed" name="typeBed" maxlength="25" pattern="[a-zA-Z0-9_. \-]*" required value="<%= typeBedE2 %>">
+        <input class="w3-border w3-sand" type="number" id="numberBeds" name="numberBeds" min="0" max="5" required value="<%= numberBedsE2 %>">
+      </div>
+
+      <label class="w3-text-brown w3-row" for="additionalBeds">Additional Beds</label>
+      <input class="w3-input w3-border w3-sand w3-quarter" type="number" id="additionalBeds" name="additionalBeds" min="0" max="3" value="<%= additionalBedsE %>">
+
+      <!-- Número de baños -->
+      <label class="w3-text-brown w3-row" for="bathrooms">Number of Bathrooms</label>
+      <input class="w3-input w3-border w3-sand w3-quarter" type="number" id="bathrooms" name="bathrooms" min="1" max="5" required value="<%= bathroomsE %>">
+      
+      <!-- Fotos del Apartamento -->
+      <label class="w3-text-brown w3-row" for="mainPhoto">Url of the Main Photo and Title</label>
+      <input class="w3-input w3-border w3-sand w3-third" type="url" id="mainPhoto" name="mainPhoto" required value="<%= mainPhotoE %>">
+      <input class="w3-input w3-border w3-sand w3-third" type="text" id="titleMainPhoto" name="titleMainPhoto" maxlength="30" pattern="[a-zA-Z0-9_. \-]*" required value="<%= titleMainPhotoE %>">
+      
+      <div class="w3-container w3-row-padding">
+      <label class="w3-text-brown w3-row" for="photos">Photo 1 / Photo 2 / Photo 3</label>
+        <div class="w3-third" id="div">
+          <input class="w3-border w3-sand" type="url" id="photos" name="photos" value="<%= photoE1 %>">
+        </div> 
+        <div class="w3-third" id="div">
+          <input class="w3-border w3-sand" type="url" id="photos" name="photos" value="<%= photoE2 %>">
+        </div>
+        <div class="w3-third" id="div">
+          <input class="w3-border w3-sand" type="url" id="photos" name="photos" value="<%= photoE3 %>">
+        </div>
+      </div>
+      
+      <div class="w3-container w3-row-padding">
+        <label class="w3-text-brown w3-row" for="titlePhotos">Titles of the Rest of the Photos of the Apartment</label>
+        <div class="w3-third" id="div">
+         <input class="w3-border w3-sand" type="text" id="titlePhotos" name="titlePhotos" maxlength="30" pattern="[a-zA-Z0-9_. \-]*" value="<%= titlePhotoE1 %>">
+        </div>
+        <div class="w3-third" id="div">
+          <input class="w3-border w3-sand" type="text" id="titlePhotos" name="titlePhotos" maxlength="30" pattern="[a-zA-Z0-9_. \-]*" value="<%= titlePhotoE2 %>">
+        </div>
+        <div class="w3-third" id="div">
+          <input class="w3-border w3-sand" type="text" id="titlePhotos" name="titlePhotos" maxlength="30" pattern="[a-zA-Z0-9_. \-]*" value="<%= titlePhotoE3 %>">
+        </div>
+      </div>
+
+      <!-- Precio por noche -->
+      <label class="w3-text-brown w3-row"for="price">Price per night</label>
+      <input class="w3-input w3-border w3-sand w3-quarter" type="number" id="price" name="price" min="1" max="1500" required value="<%= priceE %>">
+      
+      <!-- Capacidad / Número máximo de personas -->
+      <label class="w3-text-brown w3-row" for="occupation">Máx. People</label>
+      <input class="w3-input w3-border w3-sand w3-quarter" type="number" id="occupation" name="occupation" min="1" max="20" required value="<%= occupationE %>">
+
+      <!-- Metros cuadrados -->  
+      <label class="w3-text-brown w3-row" for="squareMeters">Square Meters</label>
+      <input class="w3-input w3-border w3-sand w3-quarter" type="number" id="squareMeters" name="squareMeters" min="0" max="1000" required value="<%= squareMetersE %>">
+      <br><br>
+      
+      <!-- Servicios disponibles del Apartamento -->
+      <input class="w3-check" type="checkbox" name="services" value="AC" <%= checkedAC %>>
+      <label>Air cond.</label>
+      <input class="w3-check" type="checkbox" name="services" value="TV" <%= checkedTV %>> 
+      <label>TV</label>
+      <input class="w3-check" type="checkbox" name="services" value="WiFi" <%= checkedWiFi %>> 
+      <label>WiFi</label>
+      <input class="w3-check" type="checkbox" name="services" value="Wheelchair" <%= checkedWheelchair %>> 
+      <label>Accessible</label>
+      <input class="w3-check" type="checkbox" name="services" value="Heating" <%= checkedHeating %>> 
+      <label>Heating</label>
+      <input class="w3-check" type="checkbox" name="services" value="Kitchen" <%= checkedKitchen %>> 
+      <label>Kitchen</label>
+      <br><br>
+
+      <!-- Localización del Apartamento (Provincia + Ciudad + Coordenadas GPS) -->
+      <label class="w3-text-brown w3-row" for="location">Province and City</label>
+      <input class="w3-input w3-border w3-sand w3-third" type="text" id="province" name="province" maxlength="30" pattern="[a-zA-Z0-9_. \-]*" required value="<%= provinceE %>">
+      <input class="w3-input w3-border w3-sand w3-third" type="text" id="city" name="city" maxlength="30" pattern="[a-zA-Z0-9_. \-]*" required value="<%= cityE %>">
+      
+      <label class="w3-text-brown w3-row" for="gps">GPS (Latitude and Longitude)</label>
+      <input class="w3-input w3-border w3-sand w3-quarter" type="text" id="gps" name="gpsLat" maxlength="15" pattern="[0-9\-.]*" value="<%= gpsLatitudeE %>">
+      <input class="w3-input w3-border w3-sand w3-quarter" type="text" id="gps" name="gpsLong" maxlength="15" pattern="[0-9\-.]*" value="<%= gpsLongitudeE %>">
+
+      <br><br>
+
+      <input class="w3-btn w3-brown" id="submit" type="submit" value="<%= send %>">
+    </form>
+  </main>
+
+</body>
+
+</html>

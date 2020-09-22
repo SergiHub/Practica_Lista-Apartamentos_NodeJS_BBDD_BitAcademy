@@ -1,0 +1,25 @@
+/* Estilos aplicados en algunos campos del formulario */
+input {
+    margin-right: 2px;
+    margin-bottom: 2px;
+    width: 100%;
+}
+#div{
+    padding-left: 0px;
+    padding-right: 2px;
+}
+#submit{
+    width: 15%;
+}
+
+/* Foto de la página principal (index.ejs) */
+.photo {
+    width: 300px;
+    height: 250px;
+    padding: 3px;
+}
+
+/* Aplicar estilo en la reserva de la páginade detalle (detail.ejs) */
+.bookings {
+    margin: 10px 50px;
+}

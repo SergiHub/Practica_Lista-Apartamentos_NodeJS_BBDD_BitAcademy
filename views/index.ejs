@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-sacle=1.0">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+
+    <title>Apartament List</title>
+</head>
+<style>
+    body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
+</style>
+<body class="w3-light-grey">
+    <header class="w3-display-container w3-content" style="max-width:1000px;">
+        <img class="w3-image" src="https://images.pexels.com/photos/1438832/pexels-photo-1438832.jpeg?cs=srgb&dl=white-single-story-houses-beside-body-of-water-1438832.jpg&fm=jpg" alt="Main Apartment Web" style="min-width:1000px" width="1200" height="700">
+        <div class="w3-display-topleft w3-padding w3-col l6">
+          <div class="w3-container w3-orange">
+            <h2><i class="fa fa-bed w3-margin-right"></i>Apartament List</h2>
+          </div>
+        </div>
+    </header>
+
+    <div class="w3-row-padding">
+        <br>
+        <form action="/">
+          <div class="w3-col m2">
+            <label><i class="fa fa-male"></i> Minimum capacity</label>
+            <input id="maxOccupation" name="minOccupation" class="w3-input w3-border" type="number">
+          </div>
+          <div class="w3-col m2">
+            <label><i class="fa fa-location-arrow"></i> Province</label>
+            <input id="searchProvince" name="searchProvince" class="w3-input w3-border" type="text">
+          </div>
+          <div class="w3-col m2">
+            <label><i class="fa fa-location-arrow"></i> City</label>
+            <input id="searchCity" name="searchCity" class="w3-input w3-border" type="text">
+          </div>
+          <div class="w3-col m2">
+            <label><i class="fa fa-calendar-check-o"></i> Check In</label>
+            <input class="w3-input w3-border" type="date" placeholder="DD MM YYYY" name="CheckIn">
+          </div>  
+          <div class="w3-col m2">
+            <label><i class="fa fa-calendar-o"></i> Check Out</label>
+            <input class="w3-input w3-border" type="date" placeholder="DD MM YYYY" name="CheckOut">
+          </div>
+          <div class="w3-col m2">
+            <label><i class="fa fa-search"></i> Search</label>
+            <input type="submit" value="Send" class="w3-button w3-block w3-black"></button>
+          </div>
+        </form>
+    </div>
+
+    <div class="w3-content" style="max-width:1532px;">
+        <div class="w3-row-padding w3-padding-16">
+            <% if (apartments.length > 0) { %>
+                <% for (var i = 0; i < apartments.length; i++) { %>
+                <div class="w3-quarter w3-margin-bottom">
+                    <img class="photo" src= <%= apartments[i].photos[0].url %>>
+                    <div class="w3-container w3-white">
+                        <h3><%= apartments[i].title %></h3>
+                        <span>( <%= apartments[i].location.city %> - <%= apartments[i].location.province %>)</span>
+                        <p><%= apartments[i].price %>€ per night</p>
+                        <span><%= apartments[i].squareMeters %>m<sup>2</sup>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        <span class="fa fa-male" class="fa fa-female">&nbsp;<%= apartments[i].occupation %></span>
+                        <br><br>
+                        <% if (apartments[i].services.includes("AC")) { %>
+                            <i class="fa fa-snowflake-o w3-margin-bottom"></i>
+                        <% } else { %>
+                            <i class="fa fa-snowflake-o w3-opacity-max"></i>
+                        <% } %>
+                        <% if (apartments[i].services.includes("TV")) { %>
+                            <i class="fa fa-tv w3-margin-bottom"></i>
+                        <% } else { %>
+                            <i class="fa fa-tv w3-opacity-max"></i>
+                        <% } %>
+                        <% if (apartments[i].services.includes("WiFi")) { %>
+                            <i class="fa fa-wifi w3-margin-bottom"></i>
+                        <% } else { %>
+                            <i class="fa fa-wifi w3-opacity-max"></i>
+                        <% } %>
+                        <% if (apartments[i].services.includes("Wheelchair")) { %>
+                            <i class="fa fa-wheelchair w3-margin-bottom"></i>
+                        <% } else { %>
+                            <i class="fa fa-wheelchair w3-opacity-max"></i>
+                        <% } %>
+                        <% if (apartments[i].services.includes("Heating")) { %>
+                            <i class="fa fa-fire w3-margin-bottom"></i>
+                        <% } else { %>
+                            <i class="fa fa-fire w3-opacity-max"></i>
+                        <% } %>
+                        <% if (apartments[i].services.includes("Kitchen")) { %>
+                            <i class="fa fa fa-cutlery w3-margin-bottom"></i>
+                        <% } else { %>
+                            <i class="fa fa fa-cutlery w3-opacity-max"></i>
+                        <% } %>
+                            
+                        <% if (isAdmin) {%>
+                            <a href="/admin/apartment/<%= apartments[i]._id %>"><button class="w3-button w3-block w3-black w3-margin-bottom">Manage</button></a>
+                        <% } else { %>
+                            <a href="/apartment/<%= apartments[i]._id %>"><button class="w3-button w3-block w3-black w3-margin-bottom">More information</button></a>
+                            <% } %>
+                    </div>
+                </div>
+                <% } %>
+            <% } else { %>
+                <h2>Sorry there are no apartments available</h2>
+            <% } %>
+        </div>    
+    </div>
+
+</body>
+
+</html>
